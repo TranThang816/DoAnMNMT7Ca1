@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tư vấn Sức khỏe</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        .consultation-container {
+            max-width: 800px;
+            margin: 50px auto;
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+        .consultation-form {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .consultation-form input, .consultation-form textarea {
+            width: 97%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+        .consultation-form button {
+            background-color: #007bff;
+            color: white;
+            border: none;
+            padding: 12px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        @media (max-width: 425px) {
+            .consultation-container {
+                max-width: 100vw;
+                margin: 10px 0 0 0;
+                padding: 10px 2vw;
+                border-radius: 0;
+                box-shadow: none;
+            }
+            .consultation-container h1 {
+                font-size: 1.1em;
+                padding: 0 2px;
+                margin-bottom: 8px;
+                text-align: center;
+            }
+            .consultation-container p {
+                font-size: 0.95em;
+                margin-bottom: 10px;
+                text-align: center;
+            }
+            .consultation-form {
+                gap: 10px;
+                padding: 15px 10px 10px 10px;
+            }
+            .consultation-form input,
+            .consultation-form textarea {
+                width: 100%;
+                font-size: 1em;
+                padding: 8px;
+                border-radius: 6px;
+                margin-bottom: 4px;
+            }
+            .consultation-form button {
+                width: 100%;
+                font-size: 1em;
+                padding: 10px 0;
+                border-radius: 6px;
+                margin-top: 8px;
+            }
+            header {
+                flex-direction: column;
+                align-items: flex-start;
+                padding: 8px 5px;
+                min-width: 100vw;
+            }
+            .logo-container {
+                margin-bottom: 8px;
+                flex-direction: row;
+                align-items: center;
+                width: 100%;
+                justify-content: flex-start;
+            }
+            .logo-container img {
+                width: 32px;
+                margin-right: 6px;
+            }
+            .logo-container span {
+                font-size: 1em;
+            }
+            nav ul {
+                gap: 8px;
+                padding: 0;
+                font-size: 0.95em;
+                display: flex;
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+            nav ul li a {
+                padding: 8px 6px;
+                font-size: 0.95em;
+            }
+            footer {
+                font-size: 0.95em;
+                padding: 6px 2px;
+                margin-top: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="logo-container">
+            <img src="assets/logo.png" alt="Logo">
+            <span>Trung tâm tư vấn sức khỏe</span>
+        </div>
+        <nav>
+            <ul>
+                <li><a href="index.html">Trang chủ</a></li>
+                <li><a href="webTinTuc.html">Tin tức</a></li>
+                <li><a href="webBS.html">Bác sĩ</a></li>
+                <li><a href="webTuVan.html">Tư vấn</a></li>
+                <li><a href="webLienHe.html">Liên hệ</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <div class="consultation-container">
+        <h1 style="text-align: center; color: cadetblue;">Tư vấn sức khỏe trực tuyến</h1>
+        <p style="text-align: center; color: #666;">Chúng tôi sẽ kết nối bạn với bác sĩ phù hợp</p>
+        
+        <form class="consultation-form" action="../backend/php/luu_tuvan.php" method="POST" enctype="multipart/form-data">
+            <input type="text" name="hoten" placeholder="Họ và tên" required>
+            <input type="email" name="email" placeholder="Email" required>
+            <input type="tel" name="sdt" placeholder="Số điện thoại" required>
+            <textarea name="mota" placeholder="Mô tả triệu chứng" rows="5" required></textarea>
+            <input type="file" name="anh" accept="image/*" placeholder="Upload ảnh (tùy chọn)">
+            <button type="submit">Gửi yêu cầu tư vấn</button>
+        </form>
+    </div>
+
+    <script>
+        function goToDoctorsPage() {
+            window.location.href = "webBS.html"; // Chuyển hướng đến trang bác sĩ
+            return false; // Ngăn form gửi dữ liệu mặc định (nếu không cần backend)
+        }
+    </script>
+
+    <footer>
+        <p>&copy; 2025 Tư vấn Sức khỏe. Mọi quyền được bảo lưu.</p>
+    </footer>
+
+    
+    
+
+</body>
+</html>
