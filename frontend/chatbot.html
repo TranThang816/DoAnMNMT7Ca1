@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chatbot Tư vấn Y tế</title>
+    <link rel="stylesheet" href="./chatbot.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/marked/12.0.0/marked.min.js"></script>
+</head>
+
+<body>
+    <div class="chat-container">
+        <div class="chat-header">🩺 Tư vấn Sức khỏe AI</div>
+        <div class="chat-messages" id="chat-messages"></div>
+        <div class="chat-input-area">
+            <textarea id="input" placeholder="Hỏi về sức khỏe, dinh dưỡng..." rows="1"></textarea>
+            <button onclick="submitRequest()">Gửi</button>
+        </div>
+    </div>
+
+    <script>
+        let loadingMsgDiv = null;
+        const conversationHistory = []; // Chỉ lưu lịch sử User/Model
+        const inputElement = document.getElementById('input');
+        const chatMessages = document.getElementById('chat-messages');
+
+        // 🎯 ĐỊNH NGHĨA VAI TRÒ HỆ THỐNG: CHUYÊN GIA Y TẾ (Sử dụng cho tham số systemInstruction)
+        const systemInstruction = "Bạn là 'Chuyên gia Tư vấn Y tế và Sức khỏe AI', một nguồn thông tin đáng tin cậy về sức khỏe tổng quát, dinh dưỡng, các triệu chứng phổ biến và thông tin về các bệnh thường gặp. Tuy nhiên, bạn KHÔNG PHẢI là bác sĩ và không được đưa ra chẩn đoán hay lời khuyên điều trị y tế cá nhân. Bạn phải trả lời bằng tiếng Việt hoặc tiếng Anh nếu người dùng yêu cầu, chính xác và có trách nhiệm. Nếu người dùng hỏi về bất kỳ chủ đề nào KHÔNG PHẢI là Y tế/Sức khỏe (ví dụ: công nghệ, lịch sử, toán học), bạn phải từ chối lịch sự bằng câu: 'Xin lỗi, tôi chỉ có thể hỗ trợ các vấn đề về Y tế và Sức khỏe. Vui lòng hỏi tôi về các thông tin sức khỏe tổng quát hoặc dinh dưỡng nhé.'";
+        // --------------------------------------------------------------------------------------
+
+        // Bật tính năng gửi bằng Enter
+        inputElement.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter' && !e.shiftKey) {
+                e.preventDefault();
+                submitRequest();
+            }
+        });
+
+        // Tự động điều chỉnh chiều cao của textarea
+        inputElement.addEventListener('input', () => {
+            inputElement.style.height = 'auto';
+            inputElement.style.height = inputElement.scrollHeight + 'px';
+        });
+
+
+        function addMessage(text, sender) {
+            const msgDiv = document.createElement('div');
+            msgDiv.classList.add('message', sender === 'user' ? 'user-message' : 'bot-message');
+
+            // Xử lý Markdown (cho tin nhắn của bot)
+            if (sender === 'bot') {
+                msgDiv.innerHTML = marked.parse(text);
+            } else {
+                msgDiv.innerText = text;
+            }
+
+            chatMessages.appendChild(msgDiv);
+            chatMessages.scrollTop = chatMessages.scrollHeight;
+            return msgDiv;
+        }
+
+        async function submitRequest() {
+            const inputText = inputElement.value.trim();
+            if (!inputText) return;
+
+            addMessage(inputText, 'user');
+            inputElement.value = '';
+            inputElement.style.height = 'auto';
+
+            // Thêm tin nhắn user vào lịch sử hội thoại
+            conversationHistory.push({
+                role: "user",
+                parts: [{ text: inputText }]
+            });
+
+            const submitButton = document.querySelector('.chat-input-area button');
+
+            // Hiển thị loading và vô hiệu hóa input
+            loadingMsgDiv = addMessage('⏳ Đang xử lý...', 'bot');
+            inputElement.disabled = true;
+            submitButton.disabled = true;
+
+            // ⚠️ THAY THẾ KHÓA API NÀY BẰNG KHÓA CỦA BẠN ⚠️
+            const apiKey = 'AIzaSyCMptQotats1aVZB9nYO0xC3iI_RtyPzD0';
+            const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${apiKey}`;
+
+            // Payload đã được sửa lỗi 400: systemInstruction nằm ngoài contents
+            const payload = {
+                // 🎯 systemInstruction phải là một đối tượng Content
+                systemInstruction: {
+                    role: "user", // Phải là "user" khi gửi dưới dạng instruction, hoặc bỏ qua role nếu API chấp nhận
+                    parts: [{ text: systemInstruction }]
+                },
+
+                // Mảng contents vẫn chỉ chứa các role "user" và "model"
+                contents: conversationHistory,
+
+                generationConfig: {
+                    temperature: 0.3, // Nhiệt độ thấp cho tính chính xác cao
+                    maxOutputTokens: 2000,
+                    topP: 0.9,
+                    topK: 40,
+                    responseMimeType: "text/plain"
+                }
+            };
+
+            try {
+                const response = await fetch(apiUrl, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(payload),
+                });
+
+                // Xử lý lỗi HTTP (4xx, 5xx)
+                if (!response.ok) {
+                    const errorData = await response.json();
+                    throw new Error(`API Error ${response.status}: ${errorData.error?.message || 'Lỗi không xác định'}`);
+                }
+
+                const data = await response.json();
+                const botReply = data.candidates?.[0]?.content?.parts?.[0]?.text || '🤖 Không có phản hồi hợp lệ.';
+
+                conversationHistory.push({
+                    role: "model",
+                    parts: [{ text: botReply }]
+                });
+
+                if (loadingMsgDiv) loadingMsgDiv.remove();
+                loadingMsgDiv = null;
+
+                addMessage(botReply, 'bot');
+
+            } catch (err) {
+                console.error("Lỗi gọi API:", err);
+                if (loadingMsgDiv) loadingMsgDiv.remove();
+                addMessage(`❌ Lỗi kết nối hoặc API: ${err.message}`, 'bot');
+
+            } finally {
+                // Mở lại input
+                inputElement.disabled = false;
+                submitButton.disabled = false;
+                inputElement.focus();
+            }
+        }
+    </script>
+</body>
+
+</html>
