@@ -15,6 +15,7 @@ class TuVanModel {
     public function saveTuVan($hoten, $email, $sdt, $mota, $anhPath = null, $idbacsi = null) {
         try {
             $idkhoa = null;
+            $defaultStatus = 'Chờ xử lý';
 
             // If doctor is specified, get their specialty
             if ($idbacsi) {
@@ -38,19 +39,19 @@ class TuVanModel {
             // Insert consultation request
             if ($idbacsi && $idkhoa) {
                 $sql = "INSERT INTO tuvan (HOTEN, EMAIL, SDT, MOTA, IDKHOA, IDBACSI, ANH, TRANGTHAI) 
-                        VALUES (?, ?, ?, ?, ?, ?, ?, 'Chờ xử lý')";
+                        VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
                 $stmt = $this->pdo->prepare($sql);
-                return $stmt->execute([$hoten, $email, $sdt, $mota, $idkhoa, $idbacsi, $anhPath]);
+                return $stmt->execute([$hoten, $email, $sdt, $mota, $idkhoa, $idbacsi, $anhPath, $defaultStatus]);
             } else if ($idkhoa) {
                 $sql = "INSERT INTO tuvan (HOTEN, EMAIL, SDT, MOTA, IDKHOA, ANH, TRANGTHAI) 
-                        VALUES (?, ?, ?, ?, ?, ?, 'Chờ xử lý')";
+                        VALUES (?, ?, ?, ?, ?, ?, ?)";
                 $stmt = $this->pdo->prepare($sql);
-                return $stmt->execute([$hoten, $email, $sdt, $mota, $idkhoa, $anhPath]);
+                return $stmt->execute([$hoten, $email, $sdt, $mota, $idkhoa, $anhPath, $defaultStatus]);
             } else {
                 $sql = "INSERT INTO tuvan (HOTEN, EMAIL, SDT, MOTA, ANH, TRANGTHAI) 
-                        VALUES (?, ?, ?, ?, ?, 'Chờ xử lý')";
+                        VALUES (?, ?, ?, ?, ?, ?)";
                 $stmt = $this->pdo->prepare($sql);
-                return $stmt->execute([$hoten, $email, $sdt, $mota, $anhPath]);
+                return $stmt->execute([$hoten, $email, $sdt, $mota, $anhPath, $defaultStatus]);
             }
         } catch(PDOException $e) {
             error_log("Error saving consultation: " . $e->getMessage());
