@@ -1,0 +1,480 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f8f9fa;
+}
+
+/* Header */
+header {
+    background: cadetblue;
+    padding: 15px 30px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.logo-container {
+    display: flex;
+    align-items: center;
+}
+
+.logo-container img {
+    width: 40px;
+    height: auto;
+    margin-right: 10px;
+}
+
+.logo-container span {
+    font-weight: bold;
+    color: white;
+    line-height: 1.2;
+}
+
+nav ul {
+    list-style: none;
+    display: flex;
+    gap: 20px;
+}
+
+nav ul li a {
+    color: white;
+    font-weight: bold;
+    text-decoration: none;
+    padding: 10px 15px;
+    transition: 0.3s;
+}
+
+nav ul li a:hover {
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: 5px;
+}
+.container {
+    width: 80%;
+    margin: auto;
+    padding: 20px 0;
+}
+
+h1, h2 {
+    color: #333;
+    text-align: center;
+}
+
+/* Articles section */
+.articles {
+    display: flex;
+    flex-wrap: nowrap;
+    gap: 20px; /* Khoảng cách giữa các bài viết */
+    justify-content: space-between; /* Căn đều các bài viết */
+}
+
+.article {
+    display: flex;              /* Quan trọng */
+    flex-direction: column;     /* Xếp dọc: ảnh → tên → chuyên khoa → nút */
+    justify-content: space-between; /* Giữ nút luôn ở dưới */
+    flex: 1 1 220px;             /* Linh hoạt chiều rộng, đảm bảo tối thiểu */
+    min-height: 360px;           /* Hoặc tùy theo ảnh và nội dung */
+    padding: 16px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    background-color: #f9f9f9; /* Tùy chọn: màu nền */
+    align-items: center; /* Căn giữa nội dung */
+    border: 1px solid #ddd; /* Tùy chọn: thêm viền */
+}
+
+.article-titles {
+    display: flex;
+    justify-content: center; /* Căn giữa các tiêu đề theo chiều ngang */
+    align-items: center; /* Căn giữa theo chiều dọc */
+    gap: 20px; /* Khoảng cách giữa các tiêu đề */
+    margin: 20px 0; /* Khoảng cách trên và dưới */
+    width: 100%; /* Đảm bảo tiêu đề nằm trọn trong khu vực bài viết */
+}
+
+.article-titles h3 {
+    font-size: 1.5em; /* Kích thước chữ */
+    color: #0275d8; /* Màu chữ */
+    margin: 0; /* Loại bỏ khoảng cách mặc định */
+    text-align: center; /* Căn giữa nội dung bên trong */
+}
+
+.article h3 {
+    font-size: 1.2rem;
+    margin: 10px 0;
+}
+
+.article p {
+    font-size: 1rem;
+    line-height: 1.5;
+    margin-bottom: 10px;
+}
+
+.article img {
+    margin-bottom: 10px; /* Khoảng cách dưới hình ảnh */
+    width: 150px; /* Chiều rộng cố định */
+    height: 190px; /* Chiều cao cố định */
+    object-fit: cover; /* Đảm bảo hình ảnh không bị méo */
+    border-radius: 10px; /* Bo góc hình ảnh */
+}
+
+
+
+.read-more {
+    display: inline-block;
+    margin-top: 10px;
+    padding: 5px 10px;
+    background-color: #007bff;
+    color: #fff;
+    text-decoration: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.read-more:hover {
+    background-color: #0056b3;
+}
+
+.news-container {
+    display: flex; /* Sử dụng Flexbox để căn chỉnh các phần tử */
+    justify-content: space-between; /* Chia đều khoảng cách giữa các phần tử */
+    flex-wrap: wrap; /* Cho phép xuống dòng nếu không đủ không gian */
+    gap: 20px; /* Khoảng cách giữa các phần tử */
+    margin-top: 20px;
+}
+
+.news-box {
+    flex: 1;
+    min-width: 250px; /* Đặt chiều rộng tối thiểu cho mỗi box */
+    max-width: 300px; /* Đặt chiều rộng tối đa */
+    background: white;
+    padding: 15px;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    text-align: center;
+}
+
+.news-box img {
+    width: 100%; /* Chiều rộng đầy đủ trong khung */
+    height: 150px; /* Chiều cao cố định */
+    object-fit: cover; /* Cắt ảnh để vừa với khung */
+    border-radius: 8px; /* Bo góc cho hình ảnh */
+    margin-bottom: 10px; /* Khoảng cách dưới hình ảnh */
+}
+
+.news-box h2 {
+    font-size: 1.2em;
+    color: #0275d8;
+    margin: 10px 0;
+}
+
+.news-box ul, .news-box p {
+    font-size: 1em;
+    color: #555;
+    margin: 10px 0;
+}
+
+/* Latest News Section */
+.latest-news {
+    margin-top: 40px;
+}
+
+.latest-news h2 {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.news-item img {
+    width: 150px;
+    height: 100px;
+    object-fit: cover;
+    border-radius: 8px;
+}
+
+
+.news-item:hover {
+    transform: scale(1.02);
+}
+
+.news-item img {
+    width: 150px;
+    height: 100px;
+    border-radius: 8px;
+    margin-right: 15px;
+}
+
+.news-item-content {
+    flex-grow: 1;
+}
+
+.news-item-content h3 {
+    color: #0275d8;
+}
+
+.news-item-content p {
+    color: #555;
+}
+
+.news-item-content a {
+    display: inline-block;
+    padding: 8px 12px;
+    background: cadetblue;
+    color: white;
+    text-decoration: none;
+    border-radius: 5px;
+}
+
+.news-item-content a:hover {
+    background: #005f73;
+}
+
+/* Footer */
+.footer {
+    background-color: cadetblue;
+    color: white;
+    padding: 30px 50px;
+    font-family: Arial, sans-serif;
+}
+
+.footer-container {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+}
+
+.footer-left .footer-logo {
+    width: 180px;
+}
+
+.footer-middle,
+.footer-right {
+    flex: 1;
+    padding: 0 20px;
+}
+
+.footer-middle h3,
+.footer-right h3 {
+    font-size: 18px;
+    margin-bottom: 10px;
+    text-transform: uppercase;
+}
+
+.footer-middle p,
+.footer-right ul {
+    font-size: 14px;
+    line-height: 1.6;
+}
+
+.footer-right ul {
+    list-style: none;
+    padding: 0;
+}
+
+.footer-right ul li {
+    margin-bottom: 5px;
+}
+
+.footer-right ul li a {
+    color: white;
+    text-decoration: none;
+}
+
+.footer-right ul li a:hover {
+    text-decoration: underline;
+}
+
+.footer-bottom {
+    text-align: center;
+    margin-top: 20px;
+    font-size: 13px;
+    border-top: 1px solid white;
+    padding-top: 10px;
+}
+
+.footer-icons {
+    margin-top: 10px;
+}
+
+.footer-icons a img {
+    width: 30px;
+    margin: 0 5px;
+    transition: transform 0.3s;
+}
+
+.footer-icons a img:hover {
+    transform: scale(1.1);
+}
+
+.footer a {
+    color: #FFD700;
+    text-decoration: none;
+}
+
+.footer a:hover {
+    text-decoration: underline;
+}
+
+.content {
+    overflow: hidden;
+    max-height: 50px;
+    transition: max-height 0.3s ease-out;
+}
+.expanded {
+    max-height: 500px;
+}
+.read-more {
+    display: inline-block;
+    margin-top: 10px;
+    padding: 5px 10px;
+    background-color: #007bff;
+    color: #fff;
+    text-decoration: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+.read-more:hover {
+    background-color: #0056b3;
+    cursor: pointer;
+    color: blue;
+    text-decoration: underline;
+    display: block;
+    margin-top: 5px;
+}
+
+@media (max-width: 1023px) {
+  header {
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 10px 10px;
+  }
+  .logo-container {
+    margin-bottom: 10px;
+  }
+  nav ul {
+    gap: 10px;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+  }
+  .container {
+    width: 98vw;
+    padding: 10px 0;
+  }
+  .articles {
+    flex-direction: column;
+    gap: 18px;
+    align-items: center;
+  }
+  .article {
+    width: 98vw;
+    max-width: 400px;
+    margin: 0 auto;
+    padding: 12px 5px;
+  }
+  .article img {
+    width: 110px;
+    height: 110px;
+  }
+  .news-container {
+    flex-direction: column;
+    gap: 18px;
+    align-items: center;
+  }
+  .news-box {
+    max-width: 400px;
+    width: 98vw;
+    margin: 0 auto;
+    padding: 12px 5px;
+  }
+  .footer-container {
+    flex-direction: column;
+    gap: 18px;
+    align-items: center;
+    padding: 0;
+  }
+  .footer-middle, .footer-right {
+    padding: 0 0 10px 0;
+    width: 100%;
+    text-align: center;
+  }
+  .footer-left {
+    margin-bottom: 10px;
+    text-align: center;
+  }
+}
+
+@media (max-width: 600px) {
+  header {
+    flex-direction: column;
+    align-items: stretch;
+    padding: 5px 2px;
+  }
+  .logo-container {
+    margin-bottom: 6px;
+    font-size: 1em;
+  }
+  nav ul {
+    gap: 6px;
+    flex-wrap: wrap;
+    font-size: 0.98em;
+    padding: 0;
+  }
+  .container {
+    width: 99vw;
+    padding: 5px 0;
+  }
+  .articles {
+    flex-direction: column;
+    gap: 10px;
+    align-items: center;
+  }
+  .article {
+    width: 99vw;
+    max-width: 350px;
+    margin: 0 auto;
+    padding: 8px 2px;
+  }
+  .article img {
+    width: 266px;
+    height: 157px;
+  }
+  .news-container {
+    flex-direction: column;
+    gap: 10px;
+    align-items: center;
+  }
+  .news-box {
+    max-width: 350px;
+    width: 99vw;
+    margin: 0 auto;
+    padding: 8px 2px;
+  }
+  .footer {
+    padding: 10px 2px;
+    font-size: 0.98em;
+  }
+  .footer-container {
+    flex-direction: column;
+    gap: 10px;
+    align-items: center;
+    padding: 0;
+  }
+  .footer-middle, .footer-right {
+    padding: 0 0 8px 0;
+    width: 100%;
+    text-align: center;
+  }
+  .footer-left {
+    margin-bottom: 6px;
+    text-align: center;
+  }
+  .footer-bottom {
+    font-size: 0.95em;
+    padding-top: 6px;
+  }
+  .footer-icons a img {
+    width: 24px;
+    margin: 0 2px;
+  }
+}
