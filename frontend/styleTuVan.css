@@ -1,0 +1,58 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    text-align: center;
+    background-color: #f4f4f4;
+}
+
+.consultation-section {
+    margin: 50px auto;
+    padding: 20px;
+    width: 50%;
+    background: white;
+    border-radius: 8px;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+}
+
+.consultation-title {
+    font-size: 2.5em; /* Tăng kích thước chữ để giống các trang khác */
+    margin-bottom: 10px;
+    color: cadetblue; /* Màu chữ giống các trang khác */
+    text-align: center; /* Đảm bảo tiêu đề được căn giữa */
+    width: 100%; /* Đảm bảo tiêu đề chiếm toàn bộ chiều rộng của section */
+}
+
+.consultation-section p {
+    font-size: 1.2em;
+    margin: 0 0 20px 0;
+    color: #666;
+}
+
+input, button {
+    margin: 10px auto; /* Căn giữa input và button */
+    padding: 10px;
+    width: 80%;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    display: block; /* Đảm bảo input và button căn giữa */
+}
+
+button {
+    background: #28a745;
+    color: white;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+button:hover {
+    background: #218838; /* Hiệu ứng hover */
+}
+
+footer {
+    text-align: center;
+    padding: 10px;
+    background: cadetblue;
+    color: white;
+}
+
