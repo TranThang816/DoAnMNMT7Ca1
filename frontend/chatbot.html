@@ -22,6 +22,9 @@
     <script>
         let loadingMsgDiv = null;
         const conversationHistory = []; // Chỉ lưu lịch sử User/Model
+        // Giới hạn render: ngăn chặn render đồng bộ của tin nhắn rất dài
+        const MAX_INITIAL_RENDER_CHARS = 1500; // preview length before requiring interaction
+        const CHUNK_RENDER_SIZE = 500; // size of chunks when revealing
         const inputElement = document.getElementById('input');
         const chatMessages = document.getElementById('chat-messages');
 
@@ -50,7 +53,55 @@
 
             // Xử lý Markdown (cho tin nhắn của bot)
             if (sender === 'bot') {
-                msgDiv.innerHTML = marked.parse(text);
+                if (text.length <= MAX_INITIAL_RENDER_CHARS) {
+                    // Short messages: render as Markdown normally
+                    msgDiv.innerHTML = marked.parse(text);
+                } else {
+                    // Long messages: show a safe preview and controls to reveal/stream full text.
+                    const previewText = text.slice(0, MAX_INITIAL_RENDER_CHARS);
+                    const contentDiv = document.createElement('div');
+                    contentDiv.className = 'bot-long-content';
+                    contentDiv.textContent = previewText; // use textContent to avoid heavy parsing / XSS
+                    msgDiv.appendChild(contentDiv);
+
+                    const controls = document.createElement('div');
+                    controls.className = 'bot-controls';
+
+                    const showMoreBtn = document.createElement('button');
+                    showMoreBtn.textContent = 'Hiện thêm';
+                    showMoreBtn.title = 'Hiện thêm nội dung (chunked, tránh lag)';
+                    showMoreBtn.addEventListener('click', () => {
+                        showMoreBtn.disabled = true;
+                        let idx = MAX_INITIAL_RENDER_CHARS;
+                        function appendChunk() {
+                            const next = text.slice(idx, idx + CHUNK_RENDER_SIZE);
+                            if (!next) {
+                                controls.remove();
+                                return;
+                            }
+                            contentDiv.textContent += next;
+                            idx += CHUNK_RENDER_SIZE;
+                            // yield to the event loop to keep UI responsive
+                            setTimeout(appendChunk, 0);
+                        }
+                        appendChunk();
+                    });
+
+                    const renderMdBtn = document.createElement('button');
+                    renderMdBtn.textContent = 'Hiện Markdown';
+                    renderMdBtn.title = 'Hiện full nội dung dưới dạng Markdown (có thể tạm thời lag)';
+                    renderMdBtn.addEventListener('click', () => {
+                        // Render full markdown on user action (may be heavier)
+                        const fullHtml = marked.parse(text);
+                        contentDiv.remove();
+                        msgDiv.insertAdjacentHTML('afterbegin', fullHtml);
+                        controls.remove();
+                    });
+
+                    controls.appendChild(showMoreBtn);
+                    controls.appendChild(renderMdBtn);
+                    msgDiv.appendChild(controls);
+                }
             } else {
                 msgDiv.innerText = text;
             }
@@ -96,7 +147,7 @@
 
                 generationConfig: {
                     temperature: 0.3, // Nhiệt độ thấp cho tính chính xác cao
-                    maxOutputTokens: 2000,
+                    maxOutputTokens: 1024, // Hạn chế token trả về để tránh quá dài
                     topP: 0.9,
                     topK: 40,
                     responseMimeType: "text/plain"

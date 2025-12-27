@@ -191,3 +191,27 @@ body {
     box-shadow: none;
     transform: none;
 }
+
+/* Long response preview & controls */
+.bot-long-content {
+    white-space: pre-wrap;
+    max-height: 40vh;
+    overflow: auto;
+    margin-bottom: 8px;
+    font-size: 15px;
+}
+.bot-controls {
+    display: flex;
+    gap: 8px;
+    margin-top: 6px;
+}
+.bot-controls button {
+    background: transparent;
+    border: 1px solid #ddd;
+    padding: 6px 10px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 13px;
+}
+.bot-controls button:hover { background: #f2f2f2; }
+.bot-controls button:disabled { opacity: 0.6; cursor: not-allowed; }
